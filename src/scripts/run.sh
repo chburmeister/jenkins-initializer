@@ -16,13 +16,14 @@
 TOMCAT_HOME="/home/christoph/test/tomcat"
 TOMCAT_DOWNLOAD_LINK="http://mirror.synyx.de/apache/tomcat/tomcat-8/v8.5.6/bin/apache-tomcat-8.5.6.zip"
 JENKINS_HOME="/home/christoph/test/jenkins"
+JENKINS_JOBS_DIR="/home/christoph/test/jenkins-jobs"
 JENKINS_DOWNLOAD_LINK="https://updates.jenkins-ci.org/download/war/2.26/jenkins.war"
 GROOVY_PATH="./../groovy"
 JENKINS_BASEURL="http://localhost:8080/jenkins"
 JENKINS_SCRIPTPATH="scriptText"
 JENKINS_SSH_PORT="4711" # required for scriptler
 
-./prepare.sh $TOMCAT_HOME $TOMCAT_DOWNLOAD_LINK $JENKINS_HOME $JENKINS_DOWNLOAD_LINK
+./prepare.sh $TOMCAT_HOME $TOMCAT_DOWNLOAD_LINK $JENKINS_HOME $JENKINS_DOWNLOAD_LINK $JENKINS_JOBS_DIR
 
 restartJenkins(){
 
