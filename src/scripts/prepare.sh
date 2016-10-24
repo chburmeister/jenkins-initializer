@@ -30,8 +30,8 @@ printf "\n\n"
 
 printf "configuring jenkins\n"
 printf "##################\n"
-printf "export JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\"" > $TOMCAT_HOME/bin/setenv.sh
-printf "export JENKINS_HOME=\"/home/christoph/JENKINS\"" >> $TOMCAT_HOME/bin/setenv.sh
+printf "export JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\"\n" > $TOMCAT_HOME/bin/setenv.sh
+printf "export JENKINS_HOME=\"${JENKINS_HOME}\"" >> $TOMCAT_HOME/bin/setenv.sh
 
 printf "\n\n"
 
