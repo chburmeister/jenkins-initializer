@@ -4,12 +4,14 @@ TOMCAT_HOME=$1
 TOMCAT_DOWNLOAD_LINK=$2
 JENKINS_HOME=$3
 JENKINS_DOWNLOAD_LINK=$4
+JENKINS_JOBS_DIR=$5
 
 # init
 rm -rf $TOMCAT_HOME
 mkdir -p $TOMCAT_HOME
 rm -rf $JENKINS_HOME
 mkdir -p $JENKINS_HOME
+mkdir -p $JENKINS_JOBS_DIR
 
 printf "installing tomcat\n"
 printf "#################\n"
@@ -32,6 +34,9 @@ printf "configuring jenkins\n"
 printf "##################\n"
 printf "export JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\"\n" > $TOMCAT_HOME/bin/setenv.sh
 printf "export JENKINS_HOME=\"${JENKINS_HOME}\"" >> $TOMCAT_HOME/bin/setenv.sh
+# linking the jobs dir. this makes it quite easy to separate between cattle- and pet-parts of jenkins
+rm -rf $JENKINS_HOME/jobs
+ln -s $JENKINS_JOBS_DIR $JENKINS_HOME/jobs
 
 printf "\n\n"
 
