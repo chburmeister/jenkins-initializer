@@ -13,6 +13,13 @@ rm -rf $JENKINS_HOME
 mkdir -p $JENKINS_HOME
 mkdir -p $JENKINS_JOBS_DIR
 
+printf "killing all running tomcats\n"
+printf "###########################\n"
+for PID in $(ps -ef | grep catalina | grep -v grep | awk '{print $2}')
+do
+    kill -9 $PID;
+done
+
 printf "installing tomcat\n"
 printf "#################\n"
 wget --output-document $TOMCAT_HOME/tomcat.zip $TOMCAT_DOWNLOAD_LINK

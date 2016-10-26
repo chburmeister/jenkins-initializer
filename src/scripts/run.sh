@@ -21,9 +21,7 @@ JENKINS_DOWNLOAD_LINK="https://updates.jenkins-ci.org/download/war/2.26/jenkins.
 GROOVY_PATH="./../groovy"
 JENKINS_BASEURL="http://localhost:8080/jenkins"
 JENKINS_SCRIPTPATH="scriptText"
-JENKINS_SSH_PORT="4711" # required for scriptler
-
-./prepare.sh $TOMCAT_HOME $TOMCAT_DOWNLOAD_LINK $JENKINS_HOME $JENKINS_DOWNLOAD_LINK $JENKINS_JOBS_DIR
+JENKINS_SSH_PORT="40071" # required for scriptler
 
 restartJenkins(){
 
@@ -184,20 +182,26 @@ jenkinsCredentials(){
 }
 
 
-#jenkinsScriptler(){
-#    printf "\n\n>>> install scriptler\n"
-#    # TODO: add static sshd  setting
-#    # TODO: add user with public key in jenkins
-#    # workaround to satisfy jenkins' key algorithm requirements: https://www.drupal.org/node/2552319#comment-10228045
-#    export GIT_SSH_COMMAND='ssh -o KexAlgorithms=+diffie-hellman-group1-sha1'
-#   git clone ssh://${JENKINS_USERNAME}@localhost:${JENKINS_SSH_PORT}/scriptler.git /tmp/scriptler
-#    cp ./scriptler/*.groovy /tmp/scriptler/
-#    cd /tmp/scriptler && git add * && git commit -m "jenkins setup" && git push origin master
-#    rm -rf /tmp/scriptler
-#}
+jenkinsScriptler(){
+
+    printf "\n\n"
+
+    printf "scriptler installation\n"
+    printf "######################\n"
+    # workaround to satisfy jenkins' key algorithm requirements and first clone: https://www.drupal.org/node/2552319#comment-10228045
+    export GIT_SSH_COMMAND='ssh -o KexAlgorithms=+diffie-hellman-group1-sha1 -o StrictHostKeyChecking=no'
+    # in case you work with auth: git clone ssh://${JENKINS_USERNAME}@localhost:${JENKINS_SSH_PORT}/scriptler.git /tmp/scriptler
+    git clone ssh://localhost:${JENKINS_SSH_PORT}/scriptler.git /tmp/scriptler
+    cp ${GROOVY_PATH}/scriptler/repo/*.groovy /tmp/scriptler/
+    cd /tmp/scriptler && git status && git add . && git commit -m "jenkins-initializer" && git push origin master
+    rm -rf /tmp/scriptler
+
+}
 
 
-jenkinsPlugins
-jenkinsTools
+#./prepare.sh $TOMCAT_HOME $TOMCAT_DOWNLOAD_LINK $JENKINS_HOME $JENKINS_DOWNLOAD_LINK $JENKINS_JOBS_DIR
+
+#jenkinsPlugins
+#jenkinsTools
 #jenkinsCredentials
-#jenkinsScriptler
+jenkinsScriptler

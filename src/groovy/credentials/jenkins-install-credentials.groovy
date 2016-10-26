@@ -38,5 +38,5 @@ Credentials credentials2 = new CertificateCredentialsImpl(
         new CertificateCredentialsImpl.FileOnMasterKeyStoreSource(user2.privateKeyfilePath)
 )
 
-println SystemCredentialsProvider.getInstance().getStore().addCredentials(Domain.global(), credentials1)
-println SystemCredentialsProvider.getInstance().getStore().addCredentials(Domain.global(), credentials2)
+SystemCredentialsProvider.getInstance().getStore().addCredentials(Domain.global(), credentials1)
+SystemCredentialsProvider.getInstance().getStore().addCredentials(Domain.global(), credentials2)

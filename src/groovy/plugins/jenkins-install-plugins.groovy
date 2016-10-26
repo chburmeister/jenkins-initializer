@@ -3,6 +3,7 @@ package plugins
 def pluginsBaseUrl = 'http://updates.jenkins-ci.org/download/plugins'
 def jenkinsPluginDir = "${System.getenv('JENKINS_HOME')}/plugins"
 
+
 def plugins = [
         'gradle':"${pluginsBaseUrl}/gradle/1.25/gradle.hpi",
         'ant':"${pluginsBaseUrl}/ant/1.4/ant.hpi",
@@ -21,9 +22,11 @@ def plugins = [
         'display-url-api':"${pluginsBaseUrl}/display-url-api/0.2/display-url-api.hpi", // dependency of mailer
         'junit':"${pluginsBaseUrl}/junit/1.3/junit.hpi", // dependency of display-url-api
         'script-security':"${pluginsBaseUrl}/script-security/1.13/script-security.hpi",
-        'rebuild':"${pluginsBaseUrl}/rebuild/1.22/rebuild.hpi"
-
+        'rebuild':"${pluginsBaseUrl}/rebuild/1.22/rebuild.hpi",
+        'scriptler':"${pluginsBaseUrl}/scriptler/2.9/scriptler.hpi",
+        'git-server':"${pluginsBaseUrl}/git-server/1.7/git-server.hpi" // dependency of scriptler
 ]
+
 
 plugins.each{ plugin, url ->
     def ext = url[-3..-1] // workaround to get the extension
