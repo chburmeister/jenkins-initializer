@@ -152,12 +152,36 @@ jenkinsTools(){
     fi;
 }
 
-# to be documented
-#
-#jenkinsCredentials(){
-#    printf "\n\n>>> setting credentials\n"
-#    curl --data-urlencode "script=$(<./tools.jenkins-install-credentials.groovy)" ${JENKINS_BASEURL}/${JENKINS_SCRIPTPATH}
-#}
+
+jenkinsCredentials(){
+
+    printf "\n\n"
+
+    printf "credentials installation\n"
+    printf "########################\n"
+    RESULT=$(curl -s -o /tmp/jenkins-initializer.credentials.installation  -w "%{http_code}" -l --data-urlencode "script=$(<${GROOVY_PATH}/credentials/jenkins-install-credentials.groovy)" ${JENKINS_BASEURL}/${JENKINS_SCRIPTPATH})
+    if [ 200 -eq $RESULT ];
+        then
+            printf "... credentials installations successful.\n"
+        else
+            printf "... credentials installations NOT succesfull.\n"
+            exit 1
+    fi;
+
+    printf "\n\n"
+
+    printf "credentials installation summary\n"
+    printf "################################\n"
+    RESULT=$(curl -s -o /tmp/jenkins-initializer.credentials.installation.summary -w "%{http_code}" -l --data-urlencode "script=$(<${GROOVY_PATH}/credentials/jenkins-show-credentials.groovy)" ${JENKINS_BASEURL}/${JENKINS_SCRIPTPATH})
+    if [ 200 -eq $RESULT ];
+        then
+            cat /tmp/jenkins-initializer.credentials.installation.summary
+            printf "\n"
+        else
+            printf "... credentials installations NOT succesfull.\n"
+            exit 1
+    fi;
+}
 
 
 #jenkinsScriptler(){
