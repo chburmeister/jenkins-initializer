@@ -7,9 +7,9 @@ import hudson.tools.ZipExtractionInstaller
 
 def toolName = 'jdk'
 def versionsAndUrls = [
-        '6u45_custom': 'http://myrepo/jdk-6u45_custom',
-        '7u80_custom': 'http://myrepo/jdk-7u80_custom',
-        '8u45_custom': 'http://myrepo/jdk-8u45_custom'
+        'jdk-6u45_custom': 'http://myrepo/jdk-6u45_custom',
+        'jdk-7u80_custom': 'http://myrepo/jdk-7u80_custom',
+        'jdk-8u45_custom': 'http://myrepo/jdk-8u45_custom'
 ]
 def toolsToInstall = []
 

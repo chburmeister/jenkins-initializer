@@ -4,6 +4,7 @@ def pluginsBaseUrl = 'http://updates.jenkins-ci.org/download/plugins'
 def jenkinsPluginDir = "${System.getenv('JENKINS_HOME')}/plugins"
 
 
+
 def plugins = [
         'gradle':"${pluginsBaseUrl}/gradle/1.25/gradle.hpi",
         'ant':"${pluginsBaseUrl}/ant/1.4/ant.hpi",
