@@ -5,7 +5,7 @@ import jenkins.model.Jenkins
 def plugins = Jenkins.instance.getPluginManager().getPlugins()
 
 plugins.each { plugin ->
-    println "${plugin.getShortName()} - ${plugin.getVersion()}"
+    println "      ${plugin.getShortName()} - ${plugin.getVersion()}"
 }
 
 return null

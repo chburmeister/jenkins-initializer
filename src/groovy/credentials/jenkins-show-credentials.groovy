@@ -12,5 +12,5 @@ def credsWithCertificates = CredentialsProvider.lookupCredentials(
 );
 
 for (c in credsWithCertificates) {
-    println(c.id + ": " + c.description)
+    println('      ' + c.id + ": " + c.description)
 }

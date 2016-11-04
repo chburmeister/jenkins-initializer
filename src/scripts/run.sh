@@ -37,7 +37,7 @@ installTomcat(){
 
     log4bash 1 'installing tomcat'
 
-    wget --output-document $TOMCAT_HOME/tomcat.zip $TOMCAT_DOWNLOAD_LINK
+    wget --quiet --output-document $TOMCAT_HOME/tomcat.zip $TOMCAT_DOWNLOAD_LINK
     unzip -qq $TOMCAT_HOME/tomcat.zip -d $TOMCAT_HOME
     cp -r $TOMCAT_HOME/apache-tomcat*/* $TOMCAT_HOME/
     rm -rf $TOMCAT_HOME/apache-tomcat*
@@ -49,7 +49,7 @@ installJenkins(){
 
     log4bash 1 'installing jenkins'
 
-    wget --output-document $TOMCAT_HOME/webapps/jenkins.war $JENKINS_DOWNLOAD_LINK
+    wget --quiet --output-document $TOMCAT_HOME/webapps/jenkins.war $JENKINS_DOWNLOAD_LINK
 
     echo "export JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\"" > $TOMCAT_HOME/bin/setenv.sh
     echo "export JENKINS_HOME=\"${JENKINS_HOME}\"" >> $TOMCAT_HOME/bin/setenv.sh
@@ -210,12 +210,9 @@ jenkinsScriptler(){
     log4bash 1 "found ssh port: ${SSHD_PORT}"
 
     log4bash 1 "clone the scriptler repo"
-    # workaround to satisfy jenkins' key algorithm requirements and first clone to self signed certificat:
-    # https://www.drupal.org/node/2552319#comment-10228045
-    export GIT_SSH_COMMAND='ssh -o KexAlgorithms=+diffie-hellman-group1-sha1 -o StrictHostKeyChecking=no'
-    # in case you work with authentication: git clone ssh://${JENKINS_USERNAME}@localhost:${JENKINS_SSH_PORT}/scriptler.git /tmp/scriptler
     mkdir /tmp/jenkins-initializer
-    git clone ssh://localhost:${SSHD_PORT}/scriptler.git /tmp/jenkins-initializer/scriptler
+    # in case you work with authentication: git clone ssh://${JENKINS_USERNAME}@localhost:${JENKINS_SSH_PORT}/scriptler.git /tmp/scriptler
+    GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=no' git clone ssh://localhost:${SSHD_PORT}/scriptler.git /tmp/jenkins-initializer/scriptler
     cp ${GROOVY_PATH}/scriptler/repo/*.groovy /tmp/jenkins-initializer/scriptler/
 
     log4bash 1 "push the scriptlers to the repo"
@@ -226,10 +223,30 @@ jenkinsScriptler(){
     log4bash 1 'scriptler installation succesful'
 }
 
-init
-installTomcat
-installJenkins
-jenkinsPlugins
-jenkinsTools
-jenkinsCredentials
-jenkinsScriptler
+
+# let this be the last call!
+jenkinsInstallSecurity(){
+
+    # if your are in ldaps environment, make sure that your jre has the ldap certificat imported
+    # https://issues.jenkins-ci.org/browse/JENKINS-3810
+
+    log4bash 1 'starting security installation'
+
+    RESULT=$(curl -s -o /dev/null -w "%{http_code}" -l --data-urlencode "script=$(<${GROOVY_PATH}/security/jenkins-install-security.groovy)" ${JENKINS_BASEURL}/${JENKINS_SCRIPTPATH})
+    if [ 200 -eq $RESULT ];
+        then
+            log4bash 1 'security installations succesful'
+        else
+            log4bash 3 'security installations NOT succesful'
+            exit 1
+    fi;
+}
+
+#init
+#installTomcat
+#installJenkins
+#jenkinsPlugins
+#jenkinsTools
+#jenkinsCredentials
+#jenkinsScriptler
+jenkinsInstallSecurity

@@ -1,0 +1,20 @@
+# tomcat related
+TOMCAT_HOME=""
+TOMCAT_DOWNLOAD_LINK=""
+
+# jenkins related
+JENKINS_HOME=""
+JENKINS_JOBS_DIR=""
+JENKINS_DOWNLOAD_LINK=""
+JENKINS_BASEURL=""
+JENKINS_SCRIPTPATH="scriptText"
+
+# tool related
+GROOVY_PATH="./../groovy"
+
+# logging
+L4B_DEBUGLVL=1
+L4B_DELIM=" "
+L4B_DATE="date"
+L4B_DATEFORMAT="+%Y%m%d-%H%M%S.%N"
+L4B_VERBOSE=true

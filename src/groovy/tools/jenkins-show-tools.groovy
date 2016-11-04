@@ -13,17 +13,24 @@ def ants 		= Jenkins.instance.getDescriptorByType(Ant.DescriptorImpl.class).getI
 def gradles 	= Jenkins.instance.getDescriptorByType(GradleInstallation.DescriptorImpl.class).getInstallations();
 def jdks 		= Jenkins.instance.getDescriptorByType(JDK.DescriptorImpl.class).getInstallations();
 
+println '   jdks:'
 jdks.each{
-    println it.name
+    println '      ' + it.name
 }
+
+println '   mavens:'
 mavens.each{
-    println it.name
+    println '      ' + it.name
 }
+
+println '   ants:'
 ants.each{
-    println it.name
+    println '      ' + it.name
 }
+
+println '   gradles:'
 gradles.each{
-    println it.name
+    println '      ' + it.name
 }
 
 return null
